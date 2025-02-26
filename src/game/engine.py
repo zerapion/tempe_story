@@ -3,13 +3,6 @@ from rich.prompt import Prompt
 from rich.table import Table
 
 
-"""
-we have to import scenes stuff and character stuff here, this could
-
-from ..characters.? import Player
-from ..scenes.? import ??
-from ..scenes.? import ??
-"""
 from src.game.ui import GameUI
 from src.scenes.managers.scene_manager import SceneManager
 from src.scenes.managers.dialogue_manager import DialogueManager
