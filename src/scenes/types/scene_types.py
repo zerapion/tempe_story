@@ -14,6 +14,7 @@ class SceneId(Enum):
     SUGAR_SLUMS = auto()
     SUGAR_DADDYS = auto()
     MITCHELL_PARK = auto()
+    MITCHELL_PARK_BATTLE = auto()
     BELOW_ETL = auto()
 
     """ zoo """
@@ -45,5 +46,8 @@ class DialogueId(Enum):
     ONLOOKER_1 = auto()
     ONLOOKER_2 = auto()
 
+
+
     """ SUGAR DADDY """
-    """ DUDS """
+    """ MITCHELL PARK """
+    MITCHELL_PARK_APPROACH_DUDS = auto()

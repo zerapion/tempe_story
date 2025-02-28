@@ -3,11 +3,13 @@ from rich.prompt import Prompt
 from rich.table import Table
 
 
+from src.combat.battle_manager import BattleManager
 from src.game.ui import GameUI
 from src.scenes.managers.scene_manager import SceneManager
 from src.scenes.managers.dialogue_manager import DialogueManager
 from src.characters.char_types import CharacterType
 from src.characters.player import Player
+from src.scenes.types.scene_types import SceneId
 
 class GameEngine:
     def __init__(self):
@@ -15,7 +17,7 @@ class GameEngine:
         self.player = Player()
         self.ui.set_player(self.player)
         self.game_running = False
-
+        self.battle_manager = BattleManager()
 
     # -------------------------------------------------------------
     def character_selection(self) -> bool:
@@ -98,6 +100,26 @@ class GameEngine:
         with Live(self.ui.layout, refresh_per_second=4, screen=True):
             while self.game_running:
                 current_scene = self.scene_manager.get_current_scene()
+
+                if current_scene.battle_enemy:
+                    self.battle_manager.initialize_battle(
+                        self.player.current_character,
+                        current_scene.battle_enemy
+                    )
+                    
+                    # Battle loop
+                    battle_active = True
+                    while battle_active:
+                        self.battle_manager.run_battle_turn(self.ui)
+                        # TODO: Add condition to end battle
+                        # For testing, you can add:
+                        choice = Prompt.ask("\nEnd battle? (y/n)")
+                        if choice.lower() == 'y':
+                            battle_active = False
+                    
+                    # After battle ends, transition back to previous scene
+                    self.scene_manager.transition_to_scene(SceneId.MITCHELL_PARK)
+                    continue
                 
                 # Handle initial dialogue if scene has one
                 if current_scene.initial_dialogue:

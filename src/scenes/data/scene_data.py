@@ -1,6 +1,8 @@
 # scene_data.py - Scene content and initialization data
 
 from typing import Dict
+
+from src.characters.enemy import EnemyType
 from ..types.scene_types import SceneId, DialogueId
 from ..types.action_types import Action
 from ..models.scene import Scene
@@ -33,6 +35,26 @@ def get_scenes() -> Dict[SceneId, Scene]:
             actions=[
                 Action("Leave", SceneId.MARGO)  # Changed from "Talk to Dr. Mario" to avoid loop
             ]
+        ),
+        SceneId.SUGAR_SLUMS: Scene(
+            id=SceneId.SUGAR_SLUMS,
+            description="You enter the Sugar Slums. The air is thick with the scent of sugar.",
+            actions=[
+                Action("Go to Mitchell Park", SceneId.MITCHELL_PARK, CharacterType.EVAN)
+            ]
+        ),
+        SceneId.MITCHELL_PARK: Scene(
+            id=SceneId.MITCHELL_PARK,
+            description="You enter the park. You see a group of duds.",
+            actions=[
+                Action("Approach duds", SceneId.MITCHELL_PARK_BATTLE, CharacterType.EVAN),
+            ]
+        ),
+        SceneId.MITCHELL_PARK_BATTLE: Scene(
+            id=SceneId.MITCHELL_PARK_BATTLE,
+            description="Fight!",
+            actions=[],
+            battle_enemy=EnemyType.DUDS
         ),
         SceneId.ZOO: Scene(
             id=SceneId.ZOO,

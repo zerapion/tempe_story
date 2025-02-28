@@ -57,8 +57,18 @@ class GameUI:
             Align.center(health_section, vertical="middle"),
             title="[bright_red]Health[/bright_red]",
             border_style="red",
-            padding=(1, 1)
+            padding=(0, 1)
         )
+
+        meter_section = Table(show_header=False, box=None)
+        meter_section.add_row(
+            "[bright_green]███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ [/bright_green]" 
+        )
+        meter_panel = Panel(
+            Align.center(meter_section, vertical="middle"),
+            title="[green]Meter[/green]",
+            padding=(0,1)
+        )     
 
          # stats section, talk to team for rerendering now that stats go to 100
         stats_table = Table(show_header=False, box=None)
@@ -77,19 +87,22 @@ class GameUI:
             stats_table,
             title="[bright_cyan]Character Stats[/bright_cyan]",
             border_style="cyan",
-            padding=(1, 1)
+            padding=(0, 1)
         )
 
         # 3. Create a vertical layout combining all sections
-        layout = Table.grid(padding=1)
+        layout = Table.grid(padding=0)
         layout.add_row(health_panel)
+        layout.add_row(meter_panel)
         layout.add_row(stats_panel)
+        
         
         # Wrap everything in a main panel
         return Panel(
             layout,
             title=f"[white]{self.player.current_character.name.name}[/white]",
-            border_style="white"
+            border_style="white",
+            # padding=(10, 1)
         )
     
     # -------------------------------------------------------------
