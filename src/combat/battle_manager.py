@@ -1,5 +1,8 @@
 from typing import Optional
 from rich.prompt import Prompt
+
+from src.combat.actions.battle_action import BattleAction
+from src.combat.models.action_result import ActionResult
 from ..characters.player import Character
 from ..characters.enemy import Enemy, EnemyType, get_enemy
 import random
@@ -42,3 +45,23 @@ class BattleManager:
             # Process enemy action here
             
         self.is_player_turn = not self.is_player_turn
+
+    """
+    process single weapon attack turn
+    determine actor and target, execute attack (and all calculations) and apply damage
+    return battle result for UI display
+    """
+    def process_weapon_turn(self) -> ActionResult:
+        current_actor = self.player_character if self.is_player_turn else self.enemy
+        target = self.enemy if self.is_player_turn else self.player_character
+
+        action = BattleAction(current_actor, target)
+
+        result = action.execute_weapon_action()
+
+        # apply damage
+        if result.has_hit:
+            target.stats['life'] -= result.damage
+
+        return result
+
